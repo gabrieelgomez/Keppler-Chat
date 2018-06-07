@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  recipient_id: 1
+  sender_id: 1
+  position: 1
+  deleted_at: 2018-06-07 17:33:25
+
+two:
+  recipient_id: 1
+  sender_id: 1
+  position: 1
+  deleted_at: 2018-06-07 17:33:25

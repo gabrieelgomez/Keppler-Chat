@@ -1,0 +1,12 @@
+menu:
+  keppler_chat:
+    name: Keppler Chat
+    current: ['admin/chat/conversations']
+    url_path: /admin/chat/conversations
+    icon: layers
+    model: KepplerChat::Conversation
+    # submenu:
+    #   - option:
+    #       name: name
+    #       url_path: url_path
+    #       current: ['current']
