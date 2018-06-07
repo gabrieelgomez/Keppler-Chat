@@ -21,7 +21,7 @@ KepplerChat::Engine.routes.draw do
       end
 
       namespace :conversations do
-        post '/', action: :custom, as: :customiza
+        post '/', action: :create_chat, as: :create_chat
       end
 
       resources :conversations do

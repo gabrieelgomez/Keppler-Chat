@@ -1,0 +1,19 @@
+%li
+  .panel.panel-default{"data-conversation-id" => "#{conversation.id}"}
+    .panel-heading
+      = link_to conversation.opposed_user(user).email, '', class: 'toggle-window'
+      = link_to "x", close_admin_chat_conversation_path(conversation), class: "btn btn-default btn-xs pull-right", remote: true, method: :post
+    .panel-body{:style => "display: none;"}
+      .messages-list
+        %ul
+          = render 'conversation_content', messages: conversation.messages, user: user
+      = simple_form_for [:admin, :chat, conversation, conversation.messages.new], remote: true do |f|
+        = f.hidden_field :user_id, value: user.id
+        = f.text_area :body, class: "form-control"
+        = f.submit "Send", class: "btn btn-success"
+
+      -# %form.new_message
+      -#   %input{:name => "conversation_id", :type => "hidden", :value => "#{conversation.id}"}/
+      -#   %input{:name => "user_id", :type => "hidden", :value => "#{user.id}"}/
+      -#   %textarea.form-control{:name => "body"}
+      -#   %input.btn.btn-success{:type => "submit", :value => "Send"}/

@@ -8,6 +8,10 @@ module KepplerChat
       @objects = objects
     end
 
+    def create_chat?
+      true
+    end
+
     def close?
       true
     end

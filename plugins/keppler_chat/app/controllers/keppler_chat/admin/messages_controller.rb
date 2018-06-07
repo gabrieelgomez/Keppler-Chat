@@ -45,13 +45,8 @@ module KepplerChat
 
       # POST /messages
       def create
-        @message = Message.new(message_params)
-
-        if @message.save
-          redirect(@message, params)
-        else
-          render :new
-        end
+        @conversation = Conversation.includes(:recipient).find(params[:conversation_id])
+        @message = @conversation.messages.create(message_params)
       end
 
       # PATCH/PUT /messages/1
