@@ -19,15 +19,15 @@ module KepplerChat
         conversations = @q.result(distinct: true)
         @objects = conversations.page(@current_page).order(position: :asc)
         @total = conversations.size
-        @conversations = @objects.all
-        if !@objects.first_page? && @objects.size.zero?
-          redirect_to conversations_path(page: @current_page.to_i.pred, search: @query)
-        end
-        respond_to do |format|
-          format.html
-          format.xls { send_data(@conversations.to_xls) }
-          format.json { render :json => @objects }
-        end
+        # @conversations = @objects.all
+        # if !@objects.first_page? && @objects.size.zero?
+        #   redirect_to conversations_path(page: @current_page.to_i.pred, search: @query)
+        # end
+        # respond_to do |format|
+        #   format.html
+        #   format.xls { send_data(@conversations.to_xls) }
+        #   format.json { render :json => @objects }
+        # end
       end
 
       # GET /conversations/1

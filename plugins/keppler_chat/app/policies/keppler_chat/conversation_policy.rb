@@ -7,5 +7,10 @@ module KepplerChat
       @user = user
       @objects = objects
     end
+
+    def close?
+      true
+    end
+
   end
 end

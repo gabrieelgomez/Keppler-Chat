@@ -5,19 +5,19 @@
         %section.content-header.index-header
           %h1{ style: 'display: inline-block' }
             = t("keppler.modules.#{controller_path.underscore}")
-          = entries(@total, @objects)
+          -# = entries(@total, @objects)
           .toolbar
-            - if can?(KepplerChat::Conversation).download?
-              .toolbar-item
-                = link_to admin_chat_conversation_download_path(KepplerChat::Conversation, :format => :xls), class: "tool-btn", title: t('keppler.actions.download_records') do
-                  %i.icon-cloud-download
-            - if can?(KepplerChat::Conversation).upload?
-              .toolbar-item
-                = link_to "", class: "tool-btn", title: t('keppler.actions.upload_records'), id: "conversation" do
-                  %i.icon-cloud-upload
-            .toolbar-item
-              = link_to reload_admin_chat_conversations_path, class: "tool-btn", remote: true do
-                %i.icon-reload
+            -# - if can?(KepplerChat::Conversation).download?
+            -#   .toolbar-item
+            -#     = link_to admin_chat_conversation_download_path(KepplerChat::Conversation, :format => :xls), class: "tool-btn", title: t('keppler.actions.download_records') do
+            -#       %i.icon-cloud-download
+            -# - if can?(KepplerChat::Conversation).upload?
+            -#   .toolbar-item
+            -#     = link_to "", class: "tool-btn", title: t('keppler.actions.upload_records'), id: "conversation" do
+            -#       %i.icon-cloud-upload
+            -# .toolbar-item
+            -#   = link_to reload_admin_chat_conversations_path, class: "tool-btn", remote: true do
+            -#     %i.icon-reload
             - if can?(KepplerChat::Conversation).destroy_multiple?
               .toolbar-item
                 .checkbox
@@ -28,9 +28,9 @@
             .toolbar-item
               %a.tool-btn{"data-confirm" => "¿Estás seguro?", "data-method" => "delete", "v-bind:href" => "link", :rel => "nofollow", ":class" => "{disabled: !checks}" }
                 %i.icon-trash
-          .hide
-            = form_tag admin_chat_conversation_upload_path(@objects), id: "upload_form_conversations", multipart: true, method: :post do
-              = file_field_tag :file, id: "upload_file_conversation"
+          -# .hide
+          -#   = form_tag admin_chat_conversation_upload_path(@objects), id: "upload_form_conversations", multipart: true, method: :post do
+          -#     = file_field_tag :file, id: "upload_file_conversation"
           %ol.breadcrumb
             %li
               %a{ href: '#' }
@@ -42,30 +42,29 @@
 
             %table.table
               %thead
-                - if @objects.size.zero?
-                  %tr
-                    %th{style: 'text-align: center;'}
-                      %h6= t('keppler.messages.not_found_records', model:  t("keppler.models.pluralize.conversations"))
-                - else
-                  %tr
-                    %th
-                    %th.hidden-xs= t('activerecord.attributes.recipient_id')
-                    %th.hidden-xs= t('activerecord.attributes.sender_id')
-                    %th.center Menu
-                    %th
-              %tbody#objects-container
-                = render 'admin/layouts/listing_preloader'
-                = render 'listing', objects: @objects
-        %center#paginator-module
-          = paginate @objects, window: 1
-  %aside.control-sidebar
-    = render "description"
+                %tr
+                  %th{style: 'text-align: center;'}
+                    %h6= t('keppler.messages.not_found_records', model:  t("keppler.models.pluralize.conversations"))
+          -#       - else
+          -#         %tr
+          -#           %th
+          -#           %th.hidden-xs= t('activerecord.attributes.recipient_id')
+          -#           %th.hidden-xs= t('activerecord.attributes.sender_id')
+          -#           %th.center Menu
+          -#           %th
+          -#     %tbody#objects-container
+          -#       = render 'admin/layouts/listing_preloader'
+          -#       = render 'listing', objects: @objects
+        -# %center#paginator-module
+        -#   = paginate @objects, window: 1
+  -# %aside.control-sidebar
+  -#   = render "description"
   %aside#index-show.control-sidebar
 
-  .mixed-btn
-    - if can?(KepplerChat::Conversation).create?
-      = link_to new_admin_chat_conversation_path, class: "btn-float" do
-        +
+  -# .mixed-btn
+  -#   - if can?(KepplerChat::Conversation).create?
+  -#     = link_to new_admin_chat_conversation_path, class: "btn-float" do
+  -#       +
 
 :javascript
   $(document).ready(function(){
