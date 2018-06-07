@@ -15,6 +15,13 @@ module KepplerChat
 
       # GET /conversations
       def index
+
+        session[:conversations] ||= []
+
+        @users = User.all.where.not(id: current_user)
+        @conversations = Conversation.includes(:recipient, :messages)
+                                     .find(session[:conversations]) rescue nil
+
         @q = Conversation.ransack(params[:q])
         conversations = @q.result(distinct: true)
         @objects = conversations.page(@current_page).order(position: :asc)
@@ -30,92 +37,11 @@ module KepplerChat
         # end
       end
 
-      # GET /conversations/1
-      def show
-      end
-
-      # GET /conversations/new
-      def new
-        @conversation = Conversation.new
-      end
-
-      # GET /conversations/1/edit
-      def edit
-      end
 
       # POST /conversations
       def create
-        @conversation = Conversation.new(conversation_params)
-
-        if @conversation.save
-          redirect(@conversation, params)
-        else
-          render :new
-        end
-      end
-
-      # PATCH/PUT /conversations/1
-      def update
-        if @conversation.update(conversation_params)
-          redirect(@conversation, params)
-        else
-          render :edit
-        end
-      end
-
-      def clone
-        @conversation = Conversation.clone_record params[:conversation_id]
-
-        if @conversation.save
-          redirect_to admin_chat_conversations_path
-        else
-          render :new
-        end
-      end
-
-      # DELETE /conversations/1
-      def destroy
-        @conversation.destroy
-        redirect_to admin_chat_conversations_path, notice: actions_messages(@conversation)
-      end
-
-      def destroy_multiple
-        Conversation.destroy redefine_ids(params[:multiple_ids])
-        redirect_to(
-          admin_conversations_path(page: @current_page, search: @query),
-          notice: actions_messages(Conversation.new)
-        )
-      end
-
-      def upload
-        Conversation.upload(params[:file])
-        redirect_to(
-          admin_conversations_path(page: @current_page, search: @query),
-          notice: actions_messages(Conversation.new)
-        )
-      end
-
-      def download
-        @conversations = Conversation.all
-        respond_to do |format|
-          format.html
-          format.xls { send_data(@conversations.to_xls) }
-          format.json { render json: @conversations }
-        end
-      end
-
-      def reload
-        @q = Conversation.ransack(params[:q])
-        conversations = @q.result(distinct: true)
-        @objects = conversations.page(@current_page).order(position: :desc)
-      end
-
-      def sort
-        Conversation.sorter(params[:row])
-        @q = Conversation.ransack(params[:q])
-        conversations = @q.result(distinct: true)
-        @objects = conversations.page(@current_page)
-        render :index
+        @conversation = Conversation.get(current_user.id, params[:user_id])
+        add_to_conversations unless conversated?
       end
 
       private
