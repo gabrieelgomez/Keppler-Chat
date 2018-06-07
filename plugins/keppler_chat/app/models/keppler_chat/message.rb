@@ -5,6 +5,12 @@ module KepplerChat
     include CloneRecord
     require 'csv'
     acts_as_list
+
+    belongs_to :user
+    belongs_to :conversation
+
+    # after_create_commit { MessageBroadcastJob.perform_later(self) }
+
     # Fields for the search form in the navbar
     def self.search_field
       fields = ["body", "user_id", "conversation_id", "position", "deleted_at"]
