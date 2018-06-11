@@ -30,11 +30,10 @@ module KepplerChat
         # if !@objects.first_page? && @objects.size.zero?
         #   redirect_to conversations_path(page: @current_page.to_i.pred, search: @query)
         # end
-        # respond_to do |format|
-        #   format.html
-        #   format.xls { send_data(@conversations.to_xls) }
-        #   format.json { render :json => @objects }
-        # end
+        respond_to do |format|
+          format.html
+          format.json { render :json => @conversations }
+        end
       end
 
 

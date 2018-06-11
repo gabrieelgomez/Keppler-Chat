@@ -12,4 +12,5 @@
 #= require jquery.minicolors
 #= require vue
 #= require jquery.remotipart
+#= require keppler_chat/application
 #= require_tree .

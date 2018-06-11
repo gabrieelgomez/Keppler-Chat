@@ -132,7 +132,8 @@ Rails.application.routes.draw do
 
   # Dashboard routes engine
   mount KepplerChat::Engine, at: '/', as: 'chat'
-
+  mount ActionCable.server => '/cable'
+  
   # Ckeditor routes engine
   mount Ckeditor::Engine => '/ckeditor'
 

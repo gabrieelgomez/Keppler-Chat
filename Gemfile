@@ -46,7 +46,7 @@ source 'http://insecure.rails-assets.org/' do
   gem 'rails-assets-adminlte'
   gem 'rails-assets-animate-css'
   gem 'rails-assets-noty'
-  gem 'rails-assets-simple-line-icons'
+  # gem 'rails-assets-simple-line-icons'
 end
 
 # Soft delete
@@ -116,3 +116,5 @@ gem 'keppler_ga_dashboard', path: 'plugins/keppler_ga_dashboard'
 
 #---- Keppler Chat ----
 gem 'keppler_chat', path: 'plugins/keppler_chat'
+# gem 'em-hiredis'
+# gem 'redis'
