@@ -16,7 +16,6 @@ module KepplerChat
       end
       # KepplerChat::Message.create! body: message_params['body'], user_id: message_params['user_id'], conversation_id: message_params['conversation_id']
       #ActionCable.server.broadcast 'conversation_channel', message: render_message(message_params['body'])
-      byebug
       # current_user.messages.create!(body: message_params['body'], conversation_id: message_params['conversation_id'])
 
       Message.create(message_params)
