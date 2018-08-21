@@ -15,6 +15,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+   has_many :conversations, dependent: :destroy
+   has_many :messages, dependent: :destroy
+
   def rol
     roles.first.name
   end

@@ -2,7 +2,7 @@ module KepplerChat
   # Be sure to restart your server when you modify this file. Action Cable runs in a loop that does not support auto reloading.
   class ConversationChannel < ApplicationCable::Channel
     def subscribed
-      Rails.logger.debug("Messages FOLLOW")
+      Rails.logger.debug("Subscribed Log")
       stream_from "conversations-#{current_user.id}"
     end
 
@@ -14,14 +14,16 @@ module KepplerChat
       message_params = data['message'].each_with_object({}) do |el, hash|
         hash[el.values.first] = el.values.last
       end
-
       # KepplerChat::Message.create! body: message_params['body'], user_id: message_params['user_id'], conversation_id: message_params['conversation_id']
       #ActionCable.server.broadcast 'conversation_channel', message: render_message(message_params['body'])
+      byebug
+      # current_user.messages.create!(body: message_params['body'], conversation_id: message_params['conversation_id'])
 
-      ActionCable.server.broadcast(
-        "conversations-#{current_user.id}",
-        message: message_params
-      )
+      Message.create(message_params)
+      # ActionCable.server.broadcast(
+      #   "conversations-#{current_user.id}",
+      #   message: message_params
+      # )
     end
 
     # private

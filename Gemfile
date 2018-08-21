@@ -116,5 +116,4 @@ gem 'keppler_ga_dashboard', path: 'plugins/keppler_ga_dashboard'
 
 #---- Keppler Chat ----
 gem 'keppler_chat', path: 'plugins/keppler_chat'
-# gem 'em-hiredis'
-# gem 'redis'
+gem 'redis', '~> 3.2'
