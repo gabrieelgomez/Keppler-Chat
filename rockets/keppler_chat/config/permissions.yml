@@ -1,0 +1,17 @@
+modules:
+ messages:
+    name: Message
+    actions: [
+      'index', 'create', 'update',
+      'destroy', 'download', 'upload',
+      'clone'
+    ]
+  
+ conversations:
+    name: Conversation
+    actions: [
+      'index', 'create', 'update',
+      'destroy', 'download', 'upload',
+      'clone'
+    ]
+  
