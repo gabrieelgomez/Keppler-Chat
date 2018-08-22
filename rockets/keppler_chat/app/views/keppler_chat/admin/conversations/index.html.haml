@@ -56,9 +56,54 @@
                         %h5 No hay usuarios conectados
                       - else
                         - @users.each do |user|
-                          %li= link_to user.email, admin_chat_conversations_create_chat_path(user_id: user), remote: true, method: :post
+                          .col-lg-12.spacing-online-users
+                            = link_to user.email, admin_chat_conversations_create_chat_path(user_id: user), class: 'space-name', remote: true, method: :post
+                            %img.direct-chat-img{:alt => "message user image", :src => "https://adminlte.io/themes/AdminLTE/dist/img/user1-128x128.jpg"}/
+                            %span.circle-green
 
 :scss
   ul {
     list-style: none;
   }
+
+  .circle-green{
+    background-color: #21e021;
+    width: 10px;
+    float: right;
+    border-radius: 20px;
+    height: 10px;
+    margin-top: 12px;
+  }
+
+  .space-name{
+    vertical-align: -webkit-baseline-middle;
+  }
+
+  .spacing-online-users{
+    margin: 10px 4px 10px -30px!important
+  }
+
+:javascript
+  App.conversation = App.cable.subscriptions.create("KepplerChat::ConversationChannel", {
+    connected: function() {},
+    disconnected: function() {},
+    received: function(data) {
+      var conversation = $('#conversations-list').find("[data-conversation-id='" + data['conversation_id'] + "']");
+      conversation.find('.direct-chat-messages').find('ul').append(data['message']);
+      var messages_list = conversation.find('.direct-chat-messages');
+      var height = messages_list[0].scrollHeight;
+      messages_list.scrollTop(height);
+    },
+    speak: function(message) {
+      return this.perform('speak', {
+        message: message
+      });
+    }
+  });
+  
+  $(document).on('submit', '.new_message', function(e) {
+    e.preventDefault();
+    var values = $(this).serializeArray();
+    App.conversation.speak(values);
+    $(this).trigger('reset');
+  });
