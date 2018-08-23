@@ -1,0 +1,109 @@
+#index-container{ :controller => "conversations" }
+  .container
+    .row
+      .listing.col-lg-12.col-xs-12
+        %section.content-header.index-header
+          %h1{ style: 'display: inline-block' }
+            = t("keppler.modules.#{controller_path.underscore}")
+          -# = entries(@total, @objects)
+          -# .toolbar
+          -#   - if can?(KepplerChat::Conversation).download?
+          -#     .toolbar-item
+          -#       = link_to admin_chat_conversation_download_path(KepplerChat::Conversation, :format => :xls), class: "tool-btn", title: t('keppler.actions.download_records') do
+          -#         %i.icon-cloud-download
+          -#   - if can?(KepplerChat::Conversation).upload?
+          -#     .toolbar-item
+          -#       = link_to "", class: "tool-btn", title: t('keppler.actions.upload_records'), id: "conversation" do
+          -#         %i.icon-cloud-upload
+          -#   .toolbar-item
+          -#     = link_to reload_admin_chat_conversations_path, class: "tool-btn", remote: true do
+          -#       %i.icon-reload
+          -#   - if can?(KepplerChat::Conversation).destroy_multiple?
+          -#     .toolbar-item
+          -#       .checkbox
+          -#         %label{ for: 'checkbox-all' }
+          -#           %input{ type: 'checkbox', id: 'checkbox-all', ':disabled' => 'checkItems ? disabled : ""', '@click' => 'selectAll()' }
+          -#           %span.cr
+          -#             %i.cr-icon.glyphicon.glyphicon-ok
+          -#   .toolbar-item
+          -#     %a.tool-btn{"data-confirm" => "¿Estás seguro?", "data-method" => "delete", "v-bind:href" => "link", :rel => "nofollow", ":class" => "{disabled: !checks}" }
+          -#       %i.icon-trash
+          -# .hide
+          -#   = form_tag admin_chat_conversation_upload_path(@objects), id: "upload_form_conversations", multipart: true, method: :post do
+          -#     = file_field_tag :file, id: "upload_file_conversation"
+          -# %ol.breadcrumb
+          -#   %li
+          -#     %a{ href: '#' }
+          -#       %i.icon-directions
+          -#       = t("keppler.modules.#{action_name.underscore}")
+
+        .box.slice-box
+          .box-body.no-padding
+            .row
+              -# .col-md-5
+              .col-md-9
+                %ul#conversations-list
+                  - unless @conversations.nil?
+                    - @conversations.each do |conversation|
+                      = render 'conversations', conversation: conversation, user: current_user
+              .col-md-3
+                .panel.panel-primary
+                  .panel-heading
+                    %h3.panel-title Usuarios
+                  .panel-body
+                    %ul
+                      - if @users.nil?
+                        %h5 No hay usuarios conectados
+                      - else
+                        - @users.each do |user|
+                          .col-lg-12.spacing-online-users
+                            = link_to user.email, admin_chat_conversations_create_chat_path(user_id: user), class: 'space-name', remote: true, method: :post
+                            %img.direct-chat-img{:alt => "message user image", :src => "https://adminlte.io/themes/AdminLTE/dist/img/user1-128x128.jpg"}/
+                            %span.circle-green
+
+:scss
+  ul {
+    list-style: none;
+  }
+
+  .circle-green{
+    background-color: #21e021;
+    width: 10px;
+    float: right;
+    border-radius: 20px;
+    height: 10px;
+    margin-top: 12px;
+  }
+
+  .space-name{
+    vertical-align: -webkit-baseline-middle;
+  }
+
+  .spacing-online-users{
+    margin: 10px 4px 10px -30px!important
+  }
+
+:javascript
+  App.conversation = App.cable.subscriptions.create("KepplerChat::ConversationChannel", {
+    connected: function() {},
+    disconnected: function() {},
+    received: function(data) {
+      var conversation = $('#conversations-list').find("[data-conversation-id='" + data['conversation_id'] + "']");
+      conversation.find('.direct-chat-messages').find('ul').append(data['message']);
+      var messages_list = conversation.find('.direct-chat-messages');
+      var height = messages_list[0].scrollHeight;
+      messages_list.scrollTop(height);
+    },
+    speak: function(message) {
+      return this.perform('speak', {
+        message: message
+      });
+    }
+  });
+  
+  $(document).on('submit', '.new_message', function(e) {
+    e.preventDefault();
+    var values = $(this).serializeArray();
+    App.conversation.speak(values);
+    $(this).trigger('reset');
+  });

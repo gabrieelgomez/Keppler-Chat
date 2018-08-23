@@ -1,0 +1,57 @@
+-# %li
+-#   .panel.panel-default{"data-conversation-id" => "#{conversation.id}"}
+-#     .panel-heading
+-#       = link_to conversation.opposed_user(user).email, '', class: 'toggle-window'
+-#       = link_to "x", close_admin_chat_conversation_path(conversation), class: "btn btn-default btn-xs pull-right", remote: true, method: :post
+-#     .panel-body{:style => "display: none;"}
+-#       .messages-list
+-#         %ul
+-#           = render 'conversation_content', messages: conversation.messages, user: user
+-#       -# = simple_form_for [:admin, :chat, conversation, conversation.messages.new], remote: true do |f|
+-#       -#   = f.hidden_field :user_id, value: user.id
+-#       -#   = f.text_area :body, class: "form-control"
+-#       -#   = f.submit "Send", class: "btn btn-success"
+-#
+-#       %form.new_message
+-#         %input{:name => "conversation_id", :type => "hidden", :value => "#{conversation.id}"}/
+-#         %input{:name => "user_id", :type => "hidden", :value => "#{user.id}"}/
+-#         %textarea.form-control{:name => "body"}
+-#         %input.btn.btn-success{:type => "submit", :value => "Send"}/
+
+
+
+%li
+  / Construct the box with style you want. Here we are using box-danger
+  / Then add the class direct-chat and choose the direct-chat-* contexual class
+  / The contextual class should match the box, so we are using direct-chat-danger
+  .chat-room{"data-conversation-id" => "#{conversation.id}"}
+    .box.box-danger.direct-chat.direct-chat-danger.panel-body{style: "display: none;"}
+      .box-header.with-border
+        %h3.box-title= conversation.opposed_user(user).name.camelize
+        .box-tools.pull-right
+          %span.badge.bg-red{"data-toggle" => "tooltip", :title => "3 New Messages"} 3
+          %button.btn.btn-box-tool{"data-widget" => "collapse"}
+            %i.fa.fa-minus
+          / In box-tools add this button if you intend to use the contacts pane
+          %button.btn.btn-box-tool{"data-toggle" => "tooltip", "data-widget" => "chat-pane-toggle", :title => "Contacts"}
+            %i.fa.fa-comments
+          %button.btn.btn-box-tool{"data-widget" => "remove"}
+            %i.fa.fa-times
+      / /.box-header
+      .box-body
+        / Conversations are loaded here
+        .direct-chat-messages
+          %ul
+            =# render 'conversation_content', messages: conversation.messages, user: user
+            - conversation.messages.each do |message|
+              = render 'message', message: message, user: user
+      .box-footer
+        %form.new_message
+          .input-group
+            %input.form-control{:name => "body", :placeholder => "Escribir mensaje ...", :type => "text"}/
+            %input{:name => "conversation_id", :type => "hidden", :value => "#{conversation.id}"}/
+            %input{:name => "user_id", :type => "hidden", :value => "#{user.id}"}/
+            %span.input-group-btn
+              %button.btn.btn-danger.btn-flat{:type => "submit"} Enviar
+      / /.box-footer
+    / /.direct-chat
