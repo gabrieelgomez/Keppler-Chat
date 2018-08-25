@@ -1,0 +1,65 @@
+#profile
+	.wrap
+		%img#profile-img.online{alt: '', src: 'http://emilcarlsson.se/assets/mikeross.png'}
+		%p= current_user.name.camelize
+		%i.fa.fa-chevron-down.expand-button{'aria-hidden' => 'true'}
+		#status-options
+			%ul
+				%li#status-online.active
+					%span.status-circle
+					%p Online
+				%li#status-away
+					%span.status-circle
+					%p Away
+				%li#status-busy
+					%span.status-circle
+					%p Busy
+				%li#status-offline
+					%span.status-circle
+					%p Offline
+		#expanded
+			%label{for: 'twitter'}
+				%i.fa.fa-facebook.fa-fw{'aria-hidden' => 'true'}
+			%input{name: 'twitter', type: 'text', value: 'mikeross'}
+			%label{for: 'twitter'}
+				%i.fa.fa-twitter.fa-fw{'aria-hidden' => 'true'}
+			%input{name: 'twitter', type: 'text', value: 'ross81'}
+			%label{for: 'twitter'}
+				%i.fa.fa-instagram.fa-fw{'aria-hidden' => 'true'}
+			%input{name: 'twitter', type: 'text', value: 'mike.ross'}
+
+#search
+	%label{for: ''}
+		%i.fa.fa-search{'aria-hidden' => 'true'}
+	%input{placeholder: 'Search contacts...', type: 'text'}
+
+#contacts
+	%ul
+		- @users.each do |user|
+			%li.contact.active
+				= link_to admin_chat_conversations_create_chat_path(user_id: user), class: 'space-name', remote: true, method: :post do
+					.wrap
+						%span.contact-status.online
+						%img{alt: '', src: 'http://emilcarlsson.se/assets/harveyspecter.png'}
+						.meta
+							%p.name= user.name
+							- last_message = KepplerChat::Conversation.get(current_user.id, user.id).messages.last
+							%p.preview= last_message.body.truncate(30)
+							-# %span= last_message.created_at.strftime('%H:%M %p')
+		-# %li.contact
+		-# 	.wrap
+		-# 		%span.contact-status
+		-# 		%img{alt: '', src: 'http://emilcarlsson.se/assets/jonathansidwell.png'}
+		-# 		.meta
+		-# 			%p.name Jonathan Sidwell
+		-# 			%p.preview
+		-# 				%span You:
+		-# 				That's bullshit. This deal is solid.
+
+#bottom-bar
+	%button#addcontact
+		%i.fa.fa-user-plus.fa-fw{'aria-hidden' => 'true'}
+		%span Add contact
+	%button#settings
+		%i.fa.fa-cog.fa-fw{'aria-hidden' => 'true'}
+		%span Settings

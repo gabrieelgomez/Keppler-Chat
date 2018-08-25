@@ -1,19 +1,7 @@
-%li
-  -# .row
-  -#   %div{:class => "#{user.id == message.user_id ? 'message-sent' : 'message-received'}"}
-  -#     = message.body
-
-  / Message. Default to the left
-  .direct-chat-msg{class: "#{user.id == message.user_id ? 'right' : 'left-message'}"}
-    .direct-chat-info.clearfix
-      %span.direct-chat-name{class: "#{user.id == message.user_id ? 'pull-right' : 'pull-left'}"}= message.user.name
-      -# %span.direct-chat-timestamp{class: "#{user.id == message.user_id ? 'pull-left' : 'pull-right'}"}= message.created_at
-    / /.direct-chat-info
-    %img.direct-chat-img{:alt => "message user image", :src => "https://adminlte.io/themes/AdminLTE/dist/img/user1-128x128.jpg"}/
-    / /.direct-chat-img
-    .direct-chat-text{class: "#{user.id == message.user_id ? 'pull-right' : 'pull-left'}"}= message.body
-    / /.direct-chat-text
-  / /.direct-chat-msg
-
-/ /.direct-chat-pane
-/ /.box-body
+%li{class: "#{user.id == message.user_id ? 'sent' : 'replies'}"}
+  %img{alt: '', src: 'http://emilcarlsson.se/assets/mikeross.png'}
+  %p
+    = message.body.to_s
+    %br
+    = message.created_at.strftime("%H:%M %p")
+  -# = message.user.name

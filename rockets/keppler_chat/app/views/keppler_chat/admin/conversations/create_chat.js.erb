@@ -1,13 +1,15 @@
 var conversations = $('#conversations-list');
 var conversation = conversations.find("[data-conversation-id='" + "<%= @conversation.id %>" + "']");
 
+// Insertar aqui un preloader mientras cargan los mensajes
+
 if (conversation.length !== 1) {
-  conversations.append("<%= j(render 'conversations', conversation: @conversation, user: current_user) %>");
+  conversations.append("<%= j(render 'chat_box', conversation: @conversation, user: current_user) %>");
   conversation = conversations.find("[data-conversation-id='" + "<%= @conversation.id %>" + "']");
 }
 
-conversation.find('.panel-body').show();
-
-var messages_list = conversation.find('.messages-list');
+// Insertar aqui funcion para remover preloader de mensajes
+conversation.find('.chat_box').show();
+var messages_list = conversation.find('.messages.chat_box');
 var height = messages_list[0].scrollHeight;
 messages_list.scrollTop(height);

@@ -1,0 +1,20 @@
+.content{'data-conversation-id' => "#{conversation.id}"}
+  .contact-profile.chat_box{style: 'display: none;'}
+    %img{:alt => '', :src => 'http://emilcarlsson.se/assets/harveyspecter.png'}
+    %p= conversation.opposed_user(user).name.camelize
+    .social-media
+      %i.fa.fa-facebook{'aria-hidden' => 'true'}
+      %i.fa.fa-twitter{'aria-hidden' => 'true'}
+      %i.fa.fa-instagram{'aria-hidden' => 'true'}
+  .messages.chat_box{style: 'display: none;'}
+    %ul
+      - conversation.messages.last(10).each do |message|
+        = render 'message', message: message, user: user
+  .message-input.chat_box{style: 'display: none;'}
+    %form.wrap.new_message
+      %input{name: 'body', placeholder: 'Escribe un mensaje...', type: 'text', autocomplete: 'off'}
+      %input{name: 'conversation_id', type: 'hidden', value: "#{conversation.id}"}
+      %input{name: 'user_id', type: 'hidden', value: "#{user.id}"}
+      %i.fa.fa-paperclip.attachment{'aria-hidden' => 'true'}
+      %button.submit{type: 'submit'}
+        %i.fa.fa-paper-plane{'aria-hidden' => 'true'}
