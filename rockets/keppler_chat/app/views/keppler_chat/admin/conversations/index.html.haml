@@ -41,7 +41,9 @@
   $(document).on('submit', '.new_message', function(e) {
     e.preventDefault();
     var values = $(this).serializeArray();
-    if (values[0].value == "") return 'message nil'
+    var message = values[0].value;
+    if (message == "") return false
+    $('.contact.active .preview').html('<span>You: </span>' + message);
     App.conversation.speak(values);
     $(this).trigger('reset');
   });
