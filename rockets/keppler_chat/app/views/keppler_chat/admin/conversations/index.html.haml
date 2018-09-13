@@ -77,12 +77,13 @@
   }
 
   #frame {
-    width: 95%;
-    min-width: 360px;
-    max-width: 1000px;
-    height: 92vh;
-    min-height: 300px;
-    max-height: 720px;
+    width: 100%;
+    // min-width: 360px;
+    // max-width: 1000px;
+    height: 78vh;
+    // min-height: 300px;
+    // max-height: 720px;
+    margin-top: -8px;
     background: #E6EAEA;
   }
   @media screen and (max-width: 360px) {
@@ -564,6 +565,12 @@
     overflow: hidden;
     position: relative;
   }
+  #frame .display_chat{
+    display: block!important;
+  }
+  #frame .display_chat_none{
+    display: none!important;
+  }
   @media screen and (max-width: 735px) {
     #frame .content {
       width: calc(100% - 58px);
@@ -666,9 +673,9 @@
     }
   }
   #frame .content .message-input {
-    position: absolute;
+    position: relative;
     bottom: 0;
-    width: 100%;
+    // width: 100%;
     z-index: 99;
   }
   #frame .content .message-input .wrap {

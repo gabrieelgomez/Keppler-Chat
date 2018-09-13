@@ -1,7 +1,9 @@
 .content{'data-conversation-id' => "#{conversation.id}"}
   .contact-profile.chat_box{style: 'display: none;'}
     %img{:alt => '', :src => 'http://emilcarlsson.se/assets/harveyspecter.png'}
-    %p= conversation.opposed_user(user).name.camelize
+    %p
+      = conversation.opposed_user(user).name.camelize
+      = " - " + conversation.opposed_user(user).email.downcase
     .social-media
       %i.fa.fa-facebook{'aria-hidden' => 'true'}
       %i.fa.fa-twitter{'aria-hidden' => 'true'}

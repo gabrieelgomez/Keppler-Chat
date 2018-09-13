@@ -44,7 +44,7 @@
 						.meta
 							%p.name= user.name
 							- last_message = KepplerChat::Conversation.get(current_user.id, user.id).messages.last
-							%p.preview= last_message.body.truncate(30)
+							%p.preview= last_message.try(:body).try(:truncate, 30)
 							-# %span= last_message.created_at.strftime('%H:%M %p')
 		-# %li.contact
 		-# 	.wrap

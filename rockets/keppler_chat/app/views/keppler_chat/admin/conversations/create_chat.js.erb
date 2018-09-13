@@ -9,7 +9,30 @@ if (conversation.length !== 1) {
 }
 
 // Insertar aqui funcion para remover preloader de mensajes
+
+var current_chat = localStorage.getItem("Current Chat");
+
+if (current_chat == null){
+  current_chat = "<%=@conversation.id%>";
+  localStorage.setItem("Current Chat", current_chat);
+}
+
+else{
+  let last_chat = conversations.find("[data-conversation-id='" + current_chat + "']");
+
+  // last_chat.removeClass('display_chat');
+  // last_chat.addClass('display_chat_none');
+  last_chat.find('.chat_box').hide();
+
+  current_chat = "<%=@conversation.id%>";
+  localStorage.setItem("Current Chat", current_chat);
+}
+
+// conversation.removeClass('display_chat_none');
+// conversation.addClass('display_chat');
 conversation.find('.chat_box').show();
+
+
 var messages_list = conversation.find('.messages.chat_box');
 var height = messages_list[0].scrollHeight;
 messages_list.scrollTop(height);
